@@ -43,6 +43,8 @@ otherwise, edit conf/application.conf
 
 ## Build docker image (no dependencies besides docker-machine)
 
+I have it set up with a `forestjohnsonpeoplenet/scala-sbt:0.13.13` image, you can *edit the dockerfile* to use [hseeberger/scala-sbt](https://hub.docker.com/r/hseeberger/scala-sbt/) or build your own like I did.
+
 1. `docker-machine ssh`
 1. `git clone https://github.com/splee/burrower.git`
 1. `cd burrower`
