@@ -1,0 +1,11 @@
+FROM forestjohnsonpeoplenet/scala-sbt:0.13.13
+
+WORKDIR /burrower
+
+COPY . /burrower
+
+RUN sbt assembly \
+  && echo "ls target" \
+  && ls target \
+  && echo "ls target/scala-2.11" \
+  && ls target/scala-2.11

@@ -4,6 +4,7 @@ import com.github.splee.burrower.lag.{BurrowConsumerStatus, BurrowPartitionLag, 
 import com.github.splee.burrower.write.{ConsoleWriter, InfluxWriter, Writer}
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.LazyLogging
+import scala.util.Properties
 import scalaj.http._
 import play.api.libs.json._
 
@@ -12,8 +13,8 @@ object OffsetMonitor extends LazyLogging {
   def main(args: Array[String]): Unit = {
     val conf = ConfigFactory.load()
 
-    val bHost = conf.getString("burrower.burrow.host")
-    val bPort = conf.getInt("burrower.burrow.port")
+    val bHost = Properties.envOrElse("BURROWER_BURROW_HOST", conf.getString("burrower.burrow.host") )
+    val bPort = Properties.envOrElse("BURROWER_BURROW_PORT", conf.getString("burrower.burrow.port") ).toInt
 
     val writer = buildWriter(conf)
 
@@ -30,7 +31,7 @@ object OffsetMonitor extends LazyLogging {
   }
 
   def buildWriter(conf: Config): Writer = {
-    val writerType = conf.getString("burrower.writer")
+    val writerType = Properties.envOrElse("BURROWER_WRITER", conf.getString("burrower.writer") )
     logger.info(f"Creating $writerType writer...")
 
     if (writerType == "console")
@@ -46,12 +47,12 @@ object OffsetMonitor extends LazyLogging {
 
   def buildInfluxWriter(conf: Config): InfluxWriter =
     new InfluxWriter(
-      conf.getString("burrower.influx.host"),
-      conf.getInt("burrower.influx.port"),
-      conf.getString("burrower.influx.database"),
-      conf.getString("burrower.influx.series"),
-      conf.getString("burrower.influx.userName"),
-      conf.getString("burrower.influx.password")
+      Properties.envOrElse("BURROWER_INFLUX_HOST", conf.getString("burrower.influx.host") ),
+      Properties.envOrElse("BURROWER_INFLUX_PORT", conf.getString("burrower.influx.port") ).toInt,
+      Properties.envOrElse("BURROWER_INFLUX_DATABASE", conf.getString("burrower.influx.database") ),
+      Properties.envOrElse("BURROWER_INFLUX_SERIES", conf.getString("burrower.influx.series") ),
+      Properties.envOrElse("BURROWER_INFLUX_USERNAME", conf.getString("burrower.influx.userName") ),
+      Properties.envOrElse("BURROWER_INFLUX_PASSWORD", conf.getString("burrower.influx.password") )
     )
 }
 

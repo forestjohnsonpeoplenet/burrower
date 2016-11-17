@@ -4,7 +4,7 @@ import Keys._
 object BuildSettings {
   lazy val basicSettings = Seq[Setting[_]](
     organization := "com.github.splee",
-    version := "0.2-SNAPSHOT",
+    version := "0.2.1",
     description := "Monitors consumer group offset lag in Burrow using InfluxDB",
     resolvers ++= Dependencies.resolutionRepos
   )

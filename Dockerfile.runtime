@@ -1,0 +1,8 @@
+FROM java:8
+
+WORKDIR /burrower
+
+COPY artifact/ /burrower
+
+ENTRYPOINT [ "java" ]
+CMD [ "-cp", "burrower-0.2.1.jar" "com.github.splee.burrower.OffsetMonitor" ]
